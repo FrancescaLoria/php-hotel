@@ -40,6 +40,19 @@
 
     ];
 
+    // faccio una condizione in modo da poter filtrare solo gli hotel che dispongono di un parcheggio.
+    $filtered_hotels = [];
+
+    if($_GET["hotel_con_parcheggio"] == 1){
+        foreach ($hotels as $hotel) {
+            if($hotel["parking"] === true){
+                $filtered_hotels[] = $hotel;
+            }
+        }
+    }else{
+        $filtered_hotels = $hotels;
+    }
+
     
 
 ?>
@@ -57,6 +70,12 @@
 <body>
 
 <div class="container">
+    <form action="index.php" method="GET">
+        <input type="checkbox" id="hotel_con_parcheggio" name="hotel_con_parcheggio" value="1">
+        <label for="hotel_con_parcheggio">Hotel con parcheggio</label>
+        <input type="submit" value="filtra">
+    </form>
+   
     <h1 class="text-center my-4" >TABELLA HOTELS</h1>
     <table class="table">
   <thead>
@@ -68,7 +87,7 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($hotels as $hotel){?>
+    <?php foreach ($filtered_hotels as $hotel){?>
     <tr>
       <td><?php echo $hotel["name"] ?></td>
       <td><?php echo $hotel["description"] ?></td>
